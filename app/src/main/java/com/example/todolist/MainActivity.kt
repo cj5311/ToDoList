@@ -15,47 +15,63 @@ import com.example.todolist.db.TodoEntity
 
 class MainActivity : AppCompatActivity() , OnItemLongClickListener{
 
-    //바인딩 객체 생성
+    //바인딩 객체 호출
     private lateinit var binding : ActivityMainBinding
 
+    // db 연결객체 호출
     private lateinit var db : AppDatabase
     private lateinit var todoDao : TodoDao
     private lateinit var todoList : ArrayList<TodoEntity>
+    
+    // 어뎁터 객체 호출
     private lateinit var adapter : TodoRecyclerViewAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 바인딩 객체 정의 
+        // 1.메인 레이아웃 바인딩
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 2.db 객체 호출
         db = AppDatabase.getInstance(this)!!
         todoDao = db.getTodoDao()
-
+        
+        // db 객체를 사용해 리싸이클뷰러뷰가 정의된 어뎁터를 호출하고, 어뎁터와 레이아웃 메니저를 메인 뷰객체에 연결해준다.
         getAllTodoList()
-
+        
+        // 할일추가하기 버튼 클릭시 동작 제어
         binding.btnAddTodo.setOnClickListener {
+            // 페이지 이동 정의하고 실행.
             val intent = Intent(this,AddTodoActivity::class.java)
             startActivity(intent)
         }
     }
 
+
+
     private fun getAllTodoList(){
+        // 백그라운드에서 db작업이 수행될 수 있도록 쓰레드 생성
         Thread{
             todoList = ArrayList(todoDao.getAllTodo())
-            setRecyclerView()
+            setRecyclerView() // 뷰객체에 어뎁터와 레이아웃을 할당해 준다.
         }.start()
     }
 
     private fun setRecyclerView(){
+        //메인쓰레드에서 작동되도록 설정
         runOnUiThread {
+            // 어뎁터 객체 생성
             adapter = TodoRecyclerViewAdapter(todoList, this)
+
+            // 바인딩 객체에 어뎁터, 레이아웃메니저 정의
             binding.recyclerview.adapter = adapter
             binding.recyclerview.layoutManager = LinearLayoutManager(this)
         }
     }
 
+    // 다른 페이지에 갔다가 돌아왔을때 업데이트 해주는 함수.
     override fun onRestart() {
         super.onRestart()
         getAllTodoList()
