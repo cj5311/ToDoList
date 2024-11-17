@@ -15,6 +15,7 @@ import com.example.todolist.db.TodoEntity
 
 class MainActivity : AppCompatActivity() , OnItemLongClickListener{
 
+    //바인딩 객체 생성
     private lateinit var binding : ActivityMainBinding
 
     private lateinit var db : AppDatabase
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() , OnItemLongClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 바인딩 객체 정의 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
