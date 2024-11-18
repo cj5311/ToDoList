@@ -11,6 +11,8 @@ import com.example.todolist.db.TodoEntity
 class AddTodoActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityAddTodoBinding
+    
+    //db 객체 호출
     lateinit var db : AppDatabase
     lateinit var todoDao : TodoDao
 
@@ -20,7 +22,10 @@ class AddTodoActivity : AppCompatActivity() {
         binding= ActivityAddTodoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //싱글톤으로 데이터베이스 생성했기 때문에, 메인엑티비티에서 호출한 객체와 동일한 객체이다.
         db = AppDatabase.getInstance(this)!!
+
+
         todoDao = db.getTodoDao()
 
         binding.btnComplete.setOnClickListener {
