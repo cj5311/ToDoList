@@ -40,7 +40,6 @@ class AddTodoActivity : AppCompatActivity() {
         val todoTitle = binding.edtTitle.text.toString()
         var todoImportance = binding.radioGroup.checkedRadioButtonId
 
-        Log.v("todoImportance","$todoImportance")
         var impData = 0;
 
         when(todoImportance){
