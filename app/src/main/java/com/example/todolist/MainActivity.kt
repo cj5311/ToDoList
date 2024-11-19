@@ -77,8 +77,13 @@ class MainActivity : AppCompatActivity() , OnItemLongClickListener{
         getAllTodoList()
     }
 
+    // 할일 삭제하기
     override fun onLongClick(position: Int) {
+
+        //알람창 객체 생성
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        // 타이틀, 메세지, 버튼 생성
         builder.setTitle(getString(R.string.alert_title))
         builder.setMessage(getString(R.string.alert_message))
         builder.setNegativeButton(getString(R.string.alert_no),null)
